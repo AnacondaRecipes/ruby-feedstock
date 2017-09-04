@@ -19,20 +19,19 @@ build:
 
 requirements:
   build:
-    - toolchain3
+    - {{ compiler('c') }}
     - make
-    - cmake
+  host:
     - openssl 1.0.*
-    - zlib 1.2.11
-    - readline 7.0
+    - zlib
+    - readline 7.*
     - tk 8.6.*
     - yaml
     - gettext  # [osx]
     - gmp 6.1.*
   run:
     - openssl 1.0.*
-    - zlib 1.2.11
-    - readline 7.0
+    - readline 7.*
     - tk 8.6.*
     - yaml
     - gettext  # [osx]
