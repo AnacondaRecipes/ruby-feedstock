@@ -6,5 +6,5 @@ set -x
   --enable-shared --with-openssl-dir="$PREFIX" --with-readline-dir="$PREFIX" \
   --with-tcl-dir="$PREFIX" --with-tk-dir="$PREFIX" --with-libyaml-dir="$PREFIX" \
   --with-zlib-dir="$PREFIX"
-make -j ${CPU_COUNT}
+make -j${CPU_COUNT} ${VERBOSE_AT}
 make install
