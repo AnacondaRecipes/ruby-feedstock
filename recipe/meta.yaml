@@ -21,7 +21,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - make
+    # - make
   host:
     - openssl 1.0.*
     - zlib
