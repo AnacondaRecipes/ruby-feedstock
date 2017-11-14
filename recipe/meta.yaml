@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win]
   track_features:
     - rb{{ version | replace(".", "") }}
@@ -22,20 +22,13 @@ requirements:
     - {{ compiler('c') }}
     # - make
   host:
-    - openssl 1.0.*
+    - openssl
     - zlib
-    - readline 7.*
-    - tk 8.6.*
+    - readline
+    - tk
     - yaml
     - gettext  # [osx]
-    - gmp 6.1.*
-  run:
-    - openssl 1.0.*
-    - readline 7.*
-    - tk 8.6.*
-    - yaml
-    - gettext  # [osx]
-    - gmp 6.1.*
+    - gmp
 
 test:
   commands:
