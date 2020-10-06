@@ -1,5 +1,5 @@
 {% set name = "ruby" %}
-{% set major_minor = "2.5" %}
+{% set major_minor = "2.7" %}
 {% set version = "2.7.2" %}
 {% set sha256 = "c925c4b1aaf571ebaf0e12fe053a8e150b8db64dc447043a21d779ccce9878eb" %}
 
