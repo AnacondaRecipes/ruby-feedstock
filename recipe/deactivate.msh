@@ -1,0 +1,2 @@
+unset(env("GEM_HOME"))
+sys.path_remove(path.join(env("CONDA_PREFIX"), "share/rubygems/bin"))

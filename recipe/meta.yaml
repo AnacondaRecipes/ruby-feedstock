@@ -1,7 +1,6 @@
 {% set name = "ruby" %}
-{% set major_minor = "2.5" %}
-{% set version = "2.5.1" %}
-{% set sha256 = "dac81822325b79c3ba9532b048c2123357d3310b2b40024202f360251d9829b1" %}
+{% set version = "3.1.2" %}
+{% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
   name: {{ name|lower }}
@@ -9,43 +8,76 @@ package:
 
 source:
   url: https://cache.ruby-lang.org/pub/ruby/{{ major_minor }}/ruby-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e
+  patches:
+    # Patches/work-arounds for passing make check
+    - disable-backtrace-with-lines.patch
+    - fix-isinf-redefinition-msvc.patch  # [win]
+    - 0001-Dont-t-add-SDKROOT-to-vals.patch
 
 build:
   number: 0
-  skip: True  # [win]
   track_features:
-    - rb{{ version | replace(".", "") }}
+    - rb{{ major_minor | replace(".", "") }}
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+  ignore_run_exports:
+    # We need CXX during build time to generate rbconfig.rb
+    - libstdcxx-ng
 
 requirements:
   build:
+    - gnuconfig  # [unix]
     - {{ compiler('c') }}
-    - make
-    - libtool
+    - {{ compiler('cxx') }}
+    - autoconf    # [unix]
+    - automake    # [unix]
+    - make        # [unix]
+    - libtool     # [unix]
+    - pkg-config
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
+    - gdbm        # [x86 and unix]
+    - gettext     # [osx]
+    - gmp         # [unix]
+    - libffi
+    - ncurses     # [unix]
     - openssl
+    - readline    # [unix]
+    - yaml        # [unix]
     - zlib
-    - readline
-    - tk
-    - yaml
-    - gettext  # [osx]
-    - libffi   # [osx]
-    - gmp
+  run:
+    - gettext     # [osx]
 
 test:
+  requires:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make  # [unix]
+  files:
+    - native/hello.c
+    - native/config.rb
   commands:
     - ruby --version
     - gem --version
     - ruby -e 'puts "Hi, from Ruby!"'
     - ruby -r rubygems -e 'puts "Has gems."; exit 0'
-    - ruby -r openssl -r readline -r yaml -r zlib -e 'puts "Has all dependencies."; exit 0'
+    - ruby -r fiddle -r openssl -r yaml -r zlib -e 'puts "Has all dependencies."; exit 0'
+    - ruby -r readline -e 'puts "Has readline."; exit 0'  # [unix]
+
+    # Tests it can build libraries with native dependencies
+    - cd native                        # [unix]
+    - ruby config.rb                   # [unix]
+    - make                             # [unix]
+    - ruby -r ./hello.so -e 'hello'    # [unix]
 
 about:
   home: https://www.ruby-lang.org/
-  license: GPL v2
-  license_family: GPL
+  license: BSD-2-Clause
+  license_family: BSD
   license_file: COPYING
-  summary: 'A dynamic, open source programming language with a focus on simplicity and productivity.'
+  summary: A dynamic, open source programming language with a focus on simplicity and productivity.
   description: |
     A dynamic, open source programming language with a focus on simplicity and productivity.
     It has an elegant syntax that is natural to read and easy to write.
@@ -56,3 +88,6 @@ extra:
   recipe-maintainers:
     - scopatz
     - jimmynguyc
+    - sodre
+    - wolfv
+    - xhochy
