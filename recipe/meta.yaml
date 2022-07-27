@@ -34,15 +34,8 @@ requirements:
     - automake    # [unix]
     - make        # [unix]
     - pkg-config
-    # We need all host deps also in build for cross-compiling
-    - gettext     # [build_platform != target_platform]
-    - gmp         # [build_platform != target_platform]
-    - libffi      # [build_platform != target_platform]
-    - ncurses     # [build_platform != target_platform]
-    - openssl     # [build_platform != target_platform]
-    - readline    # [build_platform != target_platform]
-    - yaml        # [build_platform != target_platform]
-    - zlib        # [build_platform != target_platform]
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - gdbm        # [x86 and unix]
     - gettext     # [osx]
