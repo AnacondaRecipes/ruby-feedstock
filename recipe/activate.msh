@@ -1,0 +1,2 @@
+export("GEM_HOME", path.join(env("CONDA_PREFIX"), "share/rubygems")),
+sys.path_prepend(path.join(env("CONDA_PREFIX"), "share/rubygems/bin"))
