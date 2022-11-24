@@ -16,7 +16,7 @@ source:
     - 0001-Dont-t-add-SDKROOT-to-vals.patch
 
 build:
-  number: 0
+  number: 1
   track_features:
     - rb{{ major_minor | replace(".", "") }}
   run_exports:
@@ -41,7 +41,7 @@ requirements:
     - gdbm        # [x86 and unix]
     - gettext     # [osx]
     - gmp         # [unix]
-    - libffi
+    - libffi 3.4
     - ncurses     # [unix]
     - openssl
     - readline    # [unix]
@@ -49,6 +49,7 @@ requirements:
     - zlib
   run:
     - gettext     # [osx]
+    - libffi >=3.4,<3.5
 
 test:
   requires:
