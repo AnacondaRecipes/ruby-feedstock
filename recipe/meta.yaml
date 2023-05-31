@@ -16,7 +16,7 @@ source:
     - 0001-Dont-t-add-SDKROOT-to-vals.patch
 
 build:
-  number: 2
+  number: 0
   track_features:
     - rb{{ major_minor | replace(".", "") }}
   run_exports:
