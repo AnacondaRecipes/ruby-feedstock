@@ -1,6 +1,5 @@
 #!/bin/bash
 # Get an updated config.sub and config.guess
-cp $BUILD_PREFIX/share/gnuconfig/config.* ./ext/fiddle/libffi-3.2.1
 cp $BUILD_PREFIX/share/gnuconfig/config.* ./tool
 set -e
 set -x
@@ -16,8 +15,6 @@ export AR=$(basename $AR)
 export RANLIB=$(basename $RANLIB)
 export LD=$(basename $LD)
 
-# Remove vendored libffi
-rm -rf ext/fiddle/libffi-3.2.1
 
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
   (

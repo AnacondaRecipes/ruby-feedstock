@@ -1,5 +1,5 @@
 {% set name = "ruby" %}
-{% set version = "3.1.4" %}
+{% set version = "3.2.2" %}
 {% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
@@ -7,13 +7,14 @@ package:
   version: {{ version }}
 
 source:
-  url: https://cache.ruby-lang.org/pub/ruby/{{ major_minor }}/ruby-{{ version }}.tar.gz
-  sha256: a3d55879a0dfab1d7141fdf10d22a07dbf8e5cdc4415da1bde06127d5cc3c7b6
+  url: https://cache.ruby-lang.org/pub/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa0e8d94e7b8a423bc
   patches:
     # Patches/work-arounds for passing make check
     - disable-backtrace-with-lines.patch
     - fix-isinf-redefinition-msvc.patch  # [win]
     - 0001-Dont-t-add-SDKROOT-to-vals.patch
+    - clockid_t.patch  # [osx and x86]
 
 build:
   number: 0
@@ -45,7 +46,7 @@ requirements:
     - ncurses     # [unix]
     - openssl {{ openssl }}
     - readline    # [unix]
-    - yaml        # [unix]
+    - yaml
     - zlib
   run:
     - gettext     # [osx]
