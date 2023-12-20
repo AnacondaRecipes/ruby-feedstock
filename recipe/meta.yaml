@@ -14,7 +14,7 @@ source:
     - disable-backtrace-with-lines.patch
     - fix-isinf-redefinition-msvc.patch  # [win]
     - 0001-Dont-t-add-SDKROOT-to-vals.patch
-    - clockid_t.patch  # [osx and x86]
+    #- clockid_t.patch  # [osx and x86]
 
 build:
   number: 0
@@ -36,20 +36,20 @@ requirements:
     - make        # [unix]
     - libtool     # [unix]
     - pkg-config
-    - patch  # [not win]
-    - m2-patch  # [win]
+    - patch         # [not win]
+    - m2-patch      # [win]
   host:
-    - gdbm        # [x86 and unix]
-    - gettext     # [osx]
-    - gmp         # [unix]
+    - gdbm 1.18     # [x86 and unix]
+    - gettext 0.21  # [osx]
+    - gmp 6.2.1     # [unix]
     - libffi 3.4
-    - ncurses     # [unix]
+    - ncurses 6.4   # [unix]
     - openssl {{ openssl }}
-    - readline    # [unix]
-    - yaml
-    - zlib
+    - readline 8.2  # [unix]
+    - yaml 0.2.5
+    - zlib {{ zlib }}
   run:
-    - gettext     # [osx]
+    - gettext       # [osx]
     - libffi >=3.4,<3.5
     - openssl 3.*
 

@@ -9,7 +9,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 nmake install
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-mkdir %PREFIX%\etc
+if not exist %PREFIX%\etc mkdir %PREFIX%\etc
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 mkdir %PREFIX%\share\rubygems
