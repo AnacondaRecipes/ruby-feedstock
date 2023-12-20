@@ -13,7 +13,7 @@ index e31d70c..71aaf12 100644
      char **syms = backtrace_symbols(trace, n);
      if (syms) {
          int i;
-+        fprintf(stderr, "conda-forge::ruby can't rb_dump_backtrace_with_lines\n");
++        fprintf(stderr, "ruby can't rb_dump_backtrace_with_lines\n");
          for (i=0; i<n; i++) {
              fprintf(stderr, "%s\n", syms[i]);
          }
