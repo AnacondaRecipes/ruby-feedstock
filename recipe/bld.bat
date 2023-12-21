@@ -1,7 +1,5 @@
 setlocal enableextensions
 
-RMDIR /s /q ext\fiddle\libffi-3.2.1
-
 CALL win32\configure.bat --prefix=%PREFIX%
 if %errorlevel% neq 0 exit /b %errorlevel%
 
@@ -11,7 +9,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 nmake install
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-mkdir %PREFIX%\etc
+if not exist %PREFIX%\etc mkdir %PREFIX%\etc
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 mkdir %PREFIX%\share\rubygems
