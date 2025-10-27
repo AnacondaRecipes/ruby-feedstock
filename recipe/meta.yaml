@@ -1,5 +1,5 @@
 {% set name = "ruby" %}
-{% set version = "3.2.2" %}
+{% set version = "3.4.7" %}
 {% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://cache.ruby-lang.org/pub/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa0e8d94e7b8a423bc
+  sha256: 23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36
   patches:
     # Patches/work-arounds for passing make check
     - fix-isinf-redefinition-msvc.patch  # [win]
@@ -26,18 +26,18 @@ build:
 
 requirements:
   build:
-    - gnuconfig  # [unix]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - gnuconfig  # [unix]
     - autoconf    # [unix]
     - automake    # [unix]
     - make        # [unix]
     - libtool     # [unix]
     - pkg-config
-    - patch         # [not win]
+    # - patch         # [not win]
     - m2-patch      # [win]
   host:
-    - gdbm 1.18     # [x86 and unix]
+    # - gdbm 1.18     # [x86 and unix]
     - gettext 0.21  # [osx]
     - gmp 6.2.1     # [unix]
     - libffi 3.4
@@ -49,7 +49,7 @@ requirements:
   run:
     - gettext       # [osx]
     - libffi >=3.4,<3.5
-    - openssl 3.*
+    - openssl >=3,<4.0a0
 
 test:
   requires:
@@ -74,7 +74,7 @@ test:
     - ruby -r ./hello.so -e 'hello'    # [unix]
 
 about:
-  home: https://www.ruby-lang.org/
+  home: https://www.ruby-lang.org
   license: BSD-2-Clause
   license_family: BSD
   license_file: COPYING
@@ -82,7 +82,7 @@ about:
   description: |
     A dynamic, open source programming language with a focus on simplicity and productivity.
     It has an elegant syntax that is natural to read and easy to write.
-  doc_url: https://www.ruby-lang.org/en/documentation/
+  doc_url: https://www.ruby-lang.org/en/documentation
   dev_url: https://github.com/ruby/ruby
 
 extra:
