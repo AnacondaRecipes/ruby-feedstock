@@ -26,16 +26,17 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - gnuconfig  # [unix]
+    - gnuconfig   # [unix]
     - autoconf    # [unix]
     - automake    # [unix]
     - make        # [unix]
     - libtool     # [unix]
     - pkg-config
     # - patch         # [not win]
-    - m2-patch      # [win]
+    # - m2-patch      # [win]
   host:
     # - gdbm 1.18     # [x86 and unix]
     - gettext 0.21  # [osx]
