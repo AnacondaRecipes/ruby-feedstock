@@ -1,5 +1,5 @@
 {% set name = "ruby" %}
-{% set version = "3.2.2" %}
+{% set version = "3.4.7" %}
 {% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
@@ -8,11 +8,10 @@ package:
 
 source:
   url: https://cache.ruby-lang.org/pub/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa0e8d94e7b8a423bc
+  sha256: 23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36
   patches:
     # Patches/work-arounds for passing make check
-    - fix-isinf-redefinition-msvc.patch  # [win]
-    - 0001-Dont-t-add-SDKROOT-to-vals.patch
+    - 0001-Dont-t-add-SDKROOT-to-vals.patch  # [osx]
 
 build:
   number: 0
@@ -26,35 +25,40 @@ build:
 
 requirements:
   build:
-    - gnuconfig  # [unix]
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
+    # We need CXX during build time to generate rbconfig.rb
     - {{ compiler('cxx') }}
-    - autoconf    # [unix]
-    - automake    # [unix]
-    - make        # [unix]
-    - libtool     # [unix]
+    - gnuconfig                        # [unix]
+    - autoconf                         # [unix]
+    - automake                         # [unix]
+    - libtool                          # [unix]
+    - make                             # [unix]
     - pkg-config
-    - patch         # [not win]
-    - m2-patch      # [win]
+    - bison                            # [unix]
+    - gperf                            # [unix]
   host:
-    - gdbm 1.18     # [x86 and unix]
-    - gettext 0.21  # [osx]
-    - gmp 6.2.1     # [unix]
-    - libffi 3.4
-    - ncurses 6.4   # [unix]
     - openssl {{ openssl }}
-    - readline 8.2  # [unix]
-    - yaml 0.2.5
+    # libyaml (for psych)
+    - yaml {{ yaml }}
     - zlib {{ zlib }}
+    - libffi {{ libffi }}
+    - readline {{ readline }}          # [unix]
+    # need for readline
+    - ncurses {{ ncurses }}            # [unix]
+    - gettext {{ gettext }}            # [osx]
+    - gmp {{ gmp }}                    # [unix]
+    # ext/gdbm (old db need for old tests and old projects)
+    - gdbm {{ gdbm }}                  # [unix]
+
   run:
     - gettext       # [osx]
     - libffi >=3.4,<3.5
-    - openssl 3.*
+    - openssl >=3,<4.0a0
 
 test:
   requires:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - make  # [unix]
   files:
     - native/hello.c
@@ -67,6 +71,12 @@ test:
     - ruby -r fiddle -r openssl -r yaml -r zlib -e 'puts "Has all dependencies."; exit 0'
     - ruby -r readline -e 'puts "Has readline."; exit 0'  # [unix]
 
+    - ruby -e 'require "openssl"; p OpenSSL::OPENSSL_VERSION'
+    - ruby -e 'require "psych"; require "yaml"; p Psych::VERSION'
+    - ruby -e 'require "zlib"; p Zlib::ZLIB_VERSION'
+    - ruby -e 'require "fiddle"; puts :ok'
+    - ruby -e 'require "readline"; puts :ok'  # [unix]
+
     # Tests it can build libraries with native dependencies
     - cd native                        # [unix]
     - ruby config.rb                   # [unix]
@@ -74,7 +84,7 @@ test:
     - ruby -r ./hello.so -e 'hello'    # [unix]
 
 about:
-  home: https://www.ruby-lang.org/
+  home: https://www.ruby-lang.org
   license: BSD-2-Clause
   license_family: BSD
   license_file: COPYING
@@ -82,7 +92,7 @@ about:
   description: |
     A dynamic, open source programming language with a focus on simplicity and productivity.
     It has an elegant syntax that is natural to read and easy to write.
-  doc_url: https://www.ruby-lang.org/en/documentation/
+  doc_url: https://www.ruby-lang.org/en/documentation
   dev_url: https://github.com/ruby/ruby
 
 extra:

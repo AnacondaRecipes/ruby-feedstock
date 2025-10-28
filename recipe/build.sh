@@ -39,7 +39,9 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
       --with-libyaml-dir="$BUILD_PREFIX" \
       --with-openssl-dir="$BUILD_PREFIX" \
       --with-readline-dir="$BUILD_PREFIX" \
-      --with-zlib-dir="$BUILD_PREFIX"
+      --with-zlib-dir="$BUILD_PREFIX" \
+      --with-gmp \
+      --with-out-ext=tk
 
     make -j ${CPU_COUNT}
     make install
@@ -57,7 +59,9 @@ autoconf
   --with-libyaml-dir="$PREFIX" \
   --with-openssl-dir="$PREFIX" \
   --with-readline-dir="$PREFIX" \
-  --with-zlib-dir="$PREFIX"
+  --with-zlib-dir="$PREFIX" \
+  --with-gmp \
+  --with-out-ext=tk
 
 make -j ${CPU_COUNT}
 # make check works locally on Linux, but not on CI Nodes, issue seems related to IPv6 and closed ports
