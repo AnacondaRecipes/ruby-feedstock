@@ -40,16 +40,16 @@ requirements:
   host:
     - openssl {{ openssl }}
     # libyaml (for psych)
-    - yaml 0.2.5
+    - yaml {{ yaml }}
     - zlib {{ zlib }}
-    - libffi 3.4
-    - readline 8.2                     # [unix]
+    - libffi {{ libffi }}
+    - readline {{ readline }}          # [unix]
     # need for readline
-    - ncurses 6.4                      # [unix]
-    - gettext 0.21                     # [osx]
-    - gmp 6.2.1                        # [unix]
+    - ncurses {{ ncurses }}            # [unix]
+    - gettext {{ gettext }}            # [osx]
+    - gmp {{ gmp }}                    # [unix]
     # ext/gdbm (old db need for old tests and old projects)
-    - gdbm 1.18                        # [unix]
+    - gdbm {{ gdbm }}                  # [unix]
 
   run:
     - gettext       # [osx]
