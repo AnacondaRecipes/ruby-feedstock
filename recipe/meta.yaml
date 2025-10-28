@@ -11,7 +11,6 @@ source:
   sha256: 23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36
   patches:
     # Patches/work-arounds for passing make check
-    - fix-isinf-redefinition-msvc.patch  # [win]
     - 0001-Dont-t-add-SDKROOT-to-vals.patch
 
 build:
@@ -28,25 +27,30 @@ requirements:
   build:
     - {{ stdlib('c') }}
     - {{ compiler('c') }}
+    # We need CXX during build time to generate rbconfig.rb
     - {{ compiler('cxx') }}
-    - gnuconfig   # [unix]
-    - autoconf    # [unix]
-    - automake    # [unix]
-    - make        # [unix]
-    - libtool     # [unix]
+    - gnuconfig                        # [unix]
+    - autoconf                         # [unix]
+    - automake                         # [unix]
+    - libtool                          # [unix]
+    - make                             # [unix]
     - pkg-config
-    # - patch         # [not win]
-    # - m2-patch      # [win]
+    - bison                            # [unix]
+    - gperf                            # [unix]
   host:
-    # - gdbm 1.18     # [x86 and unix]
-    - gettext 0.21  # [osx]
-    - gmp 6.2.1     # [unix]
-    - libffi 3.4
-    - ncurses 6.4   # [unix]
     - openssl {{ openssl }}
-    - readline 8.2  # [unix]
+    # libyaml (for psych)
     - yaml 0.2.5
     - zlib {{ zlib }}
+    - libffi 3.4
+    - readline 8.2                     # [unix]
+    # need for readline
+    - ncurses 6.4                      # [unix]
+    - gettext 0.21                     # [osx]
+    - gmp 6.2.1                        # [unix]
+    # ext/gdbm (old db need for old tests and old projects)
+    - gdbm 1.18                        # [unix]
+
   run:
     - gettext       # [osx]
     - libffi >=3.4,<3.5
@@ -55,7 +59,6 @@ requirements:
 test:
   requires:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - make  # [unix]
   files:
     - native/hello.c
@@ -67,6 +70,12 @@ test:
     - ruby -r rubygems -e 'puts "Has gems."; exit 0'
     - ruby -r fiddle -r openssl -r yaml -r zlib -e 'puts "Has all dependencies."; exit 0'
     - ruby -r readline -e 'puts "Has readline."; exit 0'  # [unix]
+
+    - ruby -e 'require "openssl"; p OpenSSL::OPENSSL_VERSION'
+    - ruby -e 'require "psych"; require "yaml"; p Psych::VERSION'
+    - ruby -e 'require "zlib"; p Zlib::ZLIB_VERSION'
+    - ruby -e 'require "fiddle"; puts :ok'
+    - ruby -e 'require "readline"; puts :ok'  # [unix]
 
     # Tests it can build libraries with native dependencies
     - cd native                        # [unix]
