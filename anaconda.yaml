@@ -1,5 +1,5 @@
 anaconda_config_version: 1
 upstream_sources:
   - webpage:
-      url: https://cache.ruby-lang.org/pub/ruby/()/ruby-{}.tar.gz
+      url: https://www.ruby-lang.org/en/downloads/
       regex: ruby-([\d.]+)\.tar\.gz
