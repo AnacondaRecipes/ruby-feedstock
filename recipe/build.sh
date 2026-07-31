@@ -35,6 +35,7 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
       --prefix="$BUILD_PREFIX" \
       --disable-install-doc \
       --enable-load-relative \
+      --disable-dtrace \
       --with-libffi-dir="$BUILD_PREFIX" \
       --with-libyaml-dir="$BUILD_PREFIX" \
       --with-openssl-dir="$BUILD_PREFIX" \
@@ -53,6 +54,7 @@ autoconf
 ./configure \
   --prefix="${PREFIX}" \
   --disable-install-doc \
+  --disable-dtrace \
   --enable-load-relative \
   --enable-shared \
   --with-libffi-dir="$PREFIX" \
