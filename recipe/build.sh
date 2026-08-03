@@ -51,6 +51,8 @@ fi
 
 autoconf
 
+# The system dtrace on build machine doesn't accept the flag syntax Ruby's Makefile uses to generate probes.h,
+# causing the build to fail; DTrace is only for optional runtime tracing, so disabling it is safe.
 ./configure \
   --prefix="${PREFIX}" \
   --disable-install-doc \
