@@ -29,6 +29,8 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
     unset CFLAGS
     unset CXXFLAGS
 
+    # The system dtrace on build machine doesn't accept the flag syntax Ruby's Makefile uses to generate probes.h,
+    # causing the build to fail; DTrace is only for optional runtime tracing, so disabling it is safe.
     # --enable-shared \
     ../configure \
       --host=$BUILD \
