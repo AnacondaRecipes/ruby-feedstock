@@ -1,5 +1,5 @@
 {% set name = "ruby" %}
-{% set version = "3.4.7" %}
+{% set version = "4.0.6" %}
 {% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
@@ -8,10 +8,7 @@ package:
 
 source:
   url: https://cache.ruby-lang.org/pub/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36
-  patches:
-    # Patches/work-arounds for passing make check
-    - 0001-Dont-t-add-SDKROOT-to-vals.patch  # [osx]
+  sha256: 837d299e8f7ddf2be31a229a7a7e019d354979825117989acb3b32b1a9be262a
 
 build:
   number: 0
@@ -50,7 +47,6 @@ requirements:
     - gmp {{ gmp }}                    # [unix]
     # ext/gdbm (old db need for old tests and old projects)
     - gdbm {{ gdbm }}                  # [unix]
-
   run:
     - gettext       # [osx]
     - libffi >=3.4,<3.5
