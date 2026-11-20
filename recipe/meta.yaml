@@ -1,14 +1,14 @@
 {% set name = "ruby" %}
-{% set version = "4.0.9" %}
+{% set version = "4.0.10" %}
 {% set major_minor = '.'.join(version.split('.')[0:2]) %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://cache.ruby-lang.org/pub/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.gz
-  sha256: c35350682ff050b79702d57ade4516e7336063f510155d19fb2fb5b3f3909511
+  sha256: b53eef3371fa5d3e3b74340edcd015f06d5d8853968d4e539a5264fce41ed9f1
 
 build:
   number: 0
@@ -75,6 +75,11 @@ test:
 
     # Tests it can build libraries with native dependencies
     - cd native                        # [unix]
+
+    # Replace the hard-linked clang-20 with a real copy so its RPATH resolves in the test env
+    - cp -p $PREFIX/bin/clang-20 $PREFIX/bin/clang-20.copy  # [osx]
+    - mv -f $PREFIX/bin/clang-20.copy $PREFIX/bin/clang-20  # [osx]
+
     - ruby config.rb                   # [unix]
     - make                             # [unix]
     - ruby -r ./hello.so -e 'hello'    # [unix]
